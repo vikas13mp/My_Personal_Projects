@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REVIEWS DETECTOR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-primary fs-3 fw-bold" href="{{url_for('home')}}">REVIEWS DETECTOR</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('about')}}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('contact')}}">Contact Us</a>
+                    </li>
+                </ul>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <h1 class="text-center fw-bold text-decoration-underline my-4">ABOUT</h1>
+    <div class="container my-4">
+
+
+    </div>
+    <div class="container my-4">
+        <p>Before making a purchase, ~80% of customers read online reviews or comments on products and services.
+            However, some of these reviews can be fraudulent as promoting certain products or depreciating them and, as
+            a result, misguide buyers. Indeed, Google announced that in 2020, they detected 40 billion spam reviews
+            daily.Content creators get paid to create fake online reviews, and they promote or depreciate certain
+            products in their reviews.
+
+            Creating reviews manually is time-consuming, labor-intensive, and costly. Therefore, automated algorithms
+            (e.g., Natural Language Processing (NLP) and Machine Learning (ML) methods) are applied to create fake
+            reviews. Contrary to human-generated reviews, machine-generated reviews are produced through text
+            generation, which can generate reviews on a large scale.
+
+            Fake review detection can be incredibly helpful for customers because it helps them make more informed
+            purchasing decisions. When customers are researching products or services online, they often rely on reviews
+            to get an idea of the quality and reliability of a particular product or service. However, fake reviews can
+            skew the overall rating and mislead customers into making a purchase that they might not have made
+            otherwise.</p>
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-muted">© 2023 REVIEWS DETECTOR, Inc</p>
+
+            <a href="/"
+                class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

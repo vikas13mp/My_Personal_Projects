@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Predict</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                Gaadi<span>Perkho</span>
+            </div>
+
+            <div class="home_menu">
+                <a href="index.html">Home</a>
+            </div>
+
+        </nav>
+    <section>
+        <div class="container">
+            <form method="post">
+            <div id="form1" class="form">
+                <h3>CAR INFO</h3>
+                <select name="company" id="company" onchange="load_car_models(this.id,'car_model')">
+                    <option>--Select Company--</option>
+                    {% for company in companies %}
+                    <option value="{{ company }}">{{company}}</option>
+                    {% endfor %}
+                </select>
+                <select name="car_model" id="car_model">
+                    <option>--Select Model--</option>
+                    <option value=""></option>
+                </select>
+                <select name="year" id="year">
+                    <option>--Select Year--</option>
+                    {% for year in years %}
+                    <option value="{{year}}">{{year}}</option>
+                    {% endfor%}
+                    
+                </select>
+                
+                <div class="btn-box">
+                    <button type="button" id="next1">
+                        Next
+                    </button>
+                </div>
+            </div>
+            
+            <div id="form3" class="form">
+                <h3>CAR INFO</h3>
+                <select name="fuel_type" id="fuel_type">
+                    <option>--Select Fuel type--</option>
+                    {% for fuel_type in fuel_type %}
+                        <option value="{{fuel_type}}">{{fuel_type}}</option>
+                    {%endfor%}
+                </select>
+                <input type="text" placeholder="Distance cover(in K.M.)" name="kilo_driven" required>
+                <div class="empty"></div>
+                
+                <div class="btn-box">
+                    <button type="button" id="back2">
+                        back
+                    </button>
+                    <button type="submit" id="button" onclick="send_data()">Submit</button>
+                </div>
+            </div>
+        </form>
+        
+
+        
+            <div class="step_row">
+                <div id="progress"></div>
+               <div class="pages">Page 1</div>
+               <div class="pages">Page 2</div>
+                
+            </div>
+        </div>
+         
+    </section>
+    <div class="row">
+        <div style="text-align: center">
+            <h3><span id="prediction"></span></h3>
+        </div>
+    </div>
+   
+</header>
+<script>
+    function load_car_models(company_id,car_model_id){
+        var company=document.getElementById(company_id);
+        var model=document.getElementById(car_model_id);
+        
+        model.value="";
+        model.innerHTML="";
+        {% for company in companies %}
+
+            if(company.value =="{{company}}")
+            {   console.log(company);
+                {% for model in car_model %}
+
+                    {% if company in model %}
+
+                       var newOption=document.createElement("option");
+                       newOption.value="{{ model }}";
+                       newOption.innerHTML="{{model}}";
+                       model.options.add(newOption); 
+                    {%endif%}
+                {%endfor%}
+            }
+        
+            
+        {% endfor %}
+        }
+        function form_handler(event)
+        {
+            event.preventDefault();
+        }
+
+        function send_data()
+        {
+            document.querySelector('form').addEventListener('submit',form_handler);
+            var fd= new FormData(document.querySelector('form'));
+
+            var xhr=new XMLHttpRequest()
+            
+            xhr.open('POST','/predict',true);
+            document.getElementById('prediction').innerHTML="Predicting...";;
+            
+
+            xhr.onreadystatechange=function()
+            {
+                if(xhr.readyState==XMLHttpRequest.DONE){
+                    document.getElementById('prediction').innerHTML="Price: ₹ "+xhr.responseText+" L";
+                }
+            }
+            
+            xhr.onload= function(){};
+            xhr.send(fd);
+            
+        }
+
+
+
+</script>
+<script src="../static/js/app.js"></script>
+</body>
+</html>
