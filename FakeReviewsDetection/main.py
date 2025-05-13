@@ -1,3 +1,4 @@
+#importing libraries
 from flask import Flask, render_template, request, redirect
 from datetime import datetime
 import numpy as np
@@ -32,6 +33,7 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import classification_report
 from sklearn.linear_model import SGDClassifier
 
+#Web Scraping for collecting the data from website 
 pd.set_option('max_colwidth', None)
 def webscraping(x):
     site = x.split('.')[1]
@@ -94,6 +96,7 @@ def geturllist(url, lastPage):
     return urllistPages
 #Function to extract all the required elements from a product review page
 def getReviews(soup, site, url):
+    #for the filpkart website 
     if site == 'flipkart':
         #Extracting the Titles
         title_sec = soup.find_all("p",'_2-N8zT')
@@ -130,7 +133,7 @@ def getReviews(soup, site, url):
         help1 = []
         for d in help_sec:
           help1.append(d.text)
-    
+    #for the amazon website
     elif site == 'amazon':
         n_ = 0
         #Extracting the Titles
@@ -184,7 +187,7 @@ def getReviews(soup, site, url):
     url1 = []
     url1 = [url] * len(date)
 
-    #Creating a DataFrame
+    #Creating a DataFrame for creating excel sheet
     collate = {'Date': date, 'URL': url1, 'Review_Title': title, 'Author': author, 'Rating': rate, 'text': text, 'Review_helpful': help1}          
     collate_df = pd.DataFrame.from_dict(collate)
     return collate_df
@@ -210,7 +213,7 @@ def scraper(url):
     df3.to_csv(product + ".csv", index=False)
 
 
-
+#flask framework working command for local host
 app = Flask(__name__)
 
 
@@ -231,16 +234,16 @@ def predict():
         url = request.form["link2"]
         product = url.split('/')[3]
         webscraping(url)
-
+#remove_numbers function used for remove the numbers from reviews
     def remove_numbers(text):
         # define the pattern to keep
         pattern = r'[^a-zA-z.,!?/:;\"\'\s]' 
         return re.sub(pattern, '', text)
-
+#remove_punctuation function used for removing comma, dot, !,?.
     def remove_punctuation(text):
         text = ''.join([c for c in text if c not in string.punctuation])
         return text
-    
+#remove_emoji function used for removing the emojis from reviews
     def remove_emoji(string):
         emoji_pattern = re.compile("["
                                u"\U0001F600-\U0001F64F"  # emoticons
@@ -264,31 +267,30 @@ def predict():
                                "]+", flags=re.UNICODE)
         return emoji_pattern.sub(r'', string)
 
-    
+#used to remove white spaces or blank spaces
     def remove_extra_whitespace_tabs(text):
         #pattern = r'^\s+$|\s+$'
         pattern = r'^\s*|\s\s*'
         return re.sub(pattern, ' ', text).strip()
-
+#used to splitting the text data within that column into individual units
     def tokenize(column):
-
     
         tokens = nltk.word_tokenize(column)
         return [w for w in tokens if w.isalpha()]
-
+#remove Stopwords are frequently occurring words like "the," "a," "is," "in,"
     def remove_stopwords(tokenized_column):
         stops = set(stopwords.words("english"))
         return [word for word in tokenized_column if not word in stops]
-
+#Stemming, in the context of pandas DataFrames, refers to the process of reducing words in a column to their root form
     def apply_stemming(tokenized_column):
 
     
         stemmer = PorterStemmer() 
         return [stemmer.stem(word).lower() for word in tokenized_column]
-
+#used to concatenate a list of strings into a single string
     def rejoin_words(tokenized_column):
         return ( " ".join(tokenized_column))
-
+#provide dataset to model and find the fake reviews and real reviews
     def prepare(product, model):
         global result
         df = pd.read_csv(product +".csv", names=['date', 'url', 'review_title','author','rating', 'text','review_helpful'])
